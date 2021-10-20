@@ -8,7 +8,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const posts = {};
+const posts = {
+  msg: 'welcome post!',
+};
 
 app.get('/posts', (req, res) => {
   res.send(posts);
@@ -20,15 +22,15 @@ app.post('/posts/create', async (req, res) => {
 
   posts[id] = {
     id,
-    title
+    title,
   };
 
   await axios.post('http://event-bus-srv:4005/events', {
     type: 'PostCreated',
     data: {
       id,
-      title
-    }
+      title,
+    },
   });
 
   res.status(201).send(posts[id]);
@@ -41,6 +43,6 @@ app.post('/events', (req, res) => {
 });
 
 app.listen(4000, () => {
-  console.log('v55');
+  console.log('v60');
   console.log('Listening on 4000');
 });
